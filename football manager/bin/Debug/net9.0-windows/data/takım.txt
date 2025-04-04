@@ -1,0 +1,4 @@
+Fenerbahçe<00102
+Galatasaray<00103
+Beþiktaþ<00104
+Trabzon<00105

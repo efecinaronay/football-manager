@@ -1,0 +1,19 @@
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football_manager.controller.cont_taktik_oyuncu_listesi.resources
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football_manager.controller.cont_taktik_pozisyon.resources
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football_manager.controller.Fixtur.resources
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football_manager.Form1.resources
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.csproj.GenerateResource.cache
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.AssemblyInfoInputs.cache
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.AssemblyInfo.cs
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.csproj.CoreCompileInputs.cache
+C:\Users\efeci\source\repos\football manager\football manager\bin\Debug\net9.0-windows\football manager.exe
+C:\Users\efeci\source\repos\football manager\football manager\bin\Debug\net9.0-windows\football manager.deps.json
+C:\Users\efeci\source\repos\football manager\football manager\bin\Debug\net9.0-windows\football manager.runtimeconfig.json
+C:\Users\efeci\source\repos\football manager\football manager\bin\Debug\net9.0-windows\football manager.dll
+C:\Users\efeci\source\repos\football manager\football manager\bin\Debug\net9.0-windows\football manager.pdb
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.dll
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\refint\football manager.dll
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.pdb
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\football manager.genruntimeconfig.cache
+C:\Users\efeci\source\repos\football manager\football manager\obj\Debug\net9.0-windows\ref\football manager.dll

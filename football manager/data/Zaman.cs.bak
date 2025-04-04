@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace football_manager.data
+{
+     delegate void d_Macgunu_EventHandler();
+    static class Zaman
+    { 
+        //
+       
+        public static event d_Macgunu_EventHandler Mac_gunundeyiz; 
+        
+        //
+      
+        static DateTime time;
+        static DateTime Lig_baslangic_zaman;
+        static Zaman()
+        {
+            time = DateTime.Now;
+            Lig_baslangic_zaman = time;
+        }
+
+       
+        public static DateTime Time
+        {
+            get 
+            {
+                return time;
+            }
+            set
+            {
+                time = value;
+            }
+        }
+        public static void Zaman_ilerlet()
+        {
+            Zaman_fixtur_kontrol();
+        }
+        static void Zaman_dur()
+        { 
+        
+        }
+        static void Zaman_fixtur_kontrol()
+        {
+            foreach (var s in Kul_data.My_team.takimim.maclar_takim)
+            {
+                if (s.Zaman == time)
+                {
+                      Mac_gunundeyiz();
+                }
+            }
+        }
+
+
+
+
+        
+    }
+}

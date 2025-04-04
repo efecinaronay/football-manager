@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+
+namespace football_manager.controller
+{
+    public partial class cont_taktik_pozisyon : UserControl
+    {
+        public cont_taktik_pozisyon(string[] taktikler)
+        {
+            InitializeComponent();
+            foreach (string item in taktikler)
+            {
+                comboBox1.Items.Add(item);
+            }
+            comboBox1.SelectedIndex = 0;
+        }
+        public static List<Button> pozisyonlar;
+        private void cont_taktik_pozisyon_Load(object sender, EventArgs e)
+        {
+            pozisyonlar = new List<Button>();
+            foreach (Control c in this.Controls)
+            {
+                if (c.Name.StartsWith("pz"))
+                {
+                    pozisyonlar.Add((Button)c);
+                }
+            }
+            timer1.Start();
+           
+        }
+
+        private void pz10_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+           
+        }
+
+        private void pz10_DragDrop(object sender, DragEventArgs e)
+        {
+            string alinan_isim_id = (string)e.Data.GetData(DataFormats.StringFormat);
+       
+            if (alinan_isim_id != null)
+            {
+                string isim = alinan_isim_id.Split(',')[0];
+                string id = alinan_isim_id.Split(',')[1];
+                (sender as Button).Text = isim;
+                (sender as Button).Tag = id;
+                taktik_duzenleme(id,(sender as Button).Name);
+                veri.okuma.Oyuncu_cek(id).Mevcut_Mevki = veri.İslem.mevkileri_doldur((sender as Button).AccessibleName)[0];
+            }
+        }
+        private void taktik_duzenleme(string id,string buton_name)
+        {
+            foreach (Control kontroll in this.Controls)
+            {
+                if (kontroll.Tag != "")
+                {
+                    if (kontroll.Name != buton_name && kontroll.Tag.ToString() == id)
+                    {
+                        kontroll.Text = "";
+                        kontroll.Tag = "";
+                    }
+                }
+            }
+        }
+
+        private void pz10_MouseHover(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pz10_MouseEnter(object sender, EventArgs e)
+        {
+            if ((sender as Button).Tag != ""&&(sender as Button).Tag!=null)
+            {
+                data.Oyuncu a_oyuncu = veri.okuma.Oyuncu_cek((sender as Button).Tag.ToString());
+                (sender as Button).Text = a_oyuncu.Forma_numarasi.ToString();
+            }
+        }
+
+        private void pz10_MouseLeave(object sender, EventArgs e)
+        {
+            if ((sender as Button).Tag != null && (sender as Button).Tag != "")
+            {
+                data.Oyuncu a_oyuncu = veri.okuma.Oyuncu_cek((sender as Button).Tag.ToString());
+                (sender as Button).Text = a_oyuncu;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string taktik = comboBox1.SelectedItem.ToString();
+            StreamReader oku = new StreamReader(@"data\\tak\\" + taktik + ".txt");
+            string veri;
+            while ((veri = oku.ReadLine()) != null)
+            {
+                string[] prc = veri.Split(';');
+                Point konum = new Point(Convert.ToInt32(prc[1]), Convert.ToInt32(prc[2]));
+                Pozisyon_yer_Degistir(prc[0], konum,prc[3]);
+                Kul_data.My_team.takimim.Taktigi.Taktigim = comboBox1.SelectedItem.ToString();
+                
+            }
+        }
+        private void Oyuncu_yerlestir()
+        {
+            foreach (Control ctr in this.Controls)
+            {
+                if (ctr.Name.StartsWith("pz"))
+                {   //poz3 poz10
+                    Kul_data.My_team.takimim.Taktigi.Oyuncu_Pozisyonu[Convert.ToInt32(ctr.Name.Substring(2, ctr.Name.Length - 2))] = ctr.Text + ";" + ctr.Tag.ToString();
+                }
+            }
+        }
+        private void Pozisyon_yer_Degistir(string button_name,Point location,string mevki)
+        {
+            foreach (Control item in this.Controls)
+            {
+                if (item.Name == button_name)
+                {
+                    item.Location = location;
+                    item.AccessibleName = mevki;
+                }
+            }
+        }
+
+        private void pz10_TextChanged(object sender, EventArgs e)
+        {
+            Oyuncu_yerlestir();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Form1.durum)
+            {
+                foreach (Control c in this.Controls)
+                {
+                    data.Oyuncu o = veri.okuma.Oyuncu_cek(Form1.id);
+                    if (o.string_mevki_al.Contains(c.AccessibleName)) 
+                    {
+                        c.BackColor = Color.Green;
+                    }
+                }
+            }
+            else 
+            {
+                foreach (Control c in this.Controls)
+                {
+                    c.BackColor = Color.SandyBrown;
+                }
+            }
+        }
+
+
+
+        
+    }
+}

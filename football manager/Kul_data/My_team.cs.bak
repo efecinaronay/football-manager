@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace football_manager.Kul_data
+{
+    static class My_team
+    {
+        static data.Takım takimim_;
+        static My_team() 
+        {
+            takimim_ = new data.Takım("ads", "213");
+        
+        }
+        public static data.Takım My__team 
+        {
+            get 
+            {
+                return takimim_;
+            }
+            set 
+            {
+                takimim_ = value;
+            }
+        }
+        public static data.Takım takimim 
+        {
+            get { return takimim_; }
+            set { takimim_ = value; }
+        }
+    }
+}

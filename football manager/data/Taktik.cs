@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace football_manager.data
+{
+    public class Taktik
+    {
+        public enum Mevkiler 
+        {
+        K,DS,DSL,DO,DOS,OSL,OS,OO,OOS,ST,None
+        }
+        string[] taktikler;
+        string taktigim;
+        public Taktik() 
+        {
+            taktikler = veri.okuma.tatikleri_al(@"data\\tak");
+            oyuncu_pozisyon = new string[11];
+        }
+        public string[] Taktikler 
+        {
+            get 
+            {
+                return taktikler;
+            }
+        }
+        string[] oyuncu_pozisyon;
+        public string[] Oyuncu_Pozisyonu
+        {
+            get 
+            {
+                return oyuncu_pozisyon;
+            }
+            set 
+            {
+                oyuncu_pozisyon = value;
+            }
+        }
+        public string Taktigim 
+        {
+            get 
+            {
+                return taktigim;
+            }
+            set 
+            {
+                taktigim = value;
+            }
+        }
+    }
+}

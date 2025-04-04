@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using football_manager;
+using football_manager.Kul_data;
+
+namespace football_manager.controller
+{
+    public partial class cont_taktik_oyuncu_listesi : UserControl
+    {
+        List<data.Oyuncu> oyuncular;
+        private Form1 _frm;
+        public cont_taktik_oyuncu_listesi()
+        {
+            
+            InitializeComponent();
+        }
+
+        private void Oyuncu_ekle(data.Oyuncu oyuncu)
+        {
+            oyuncular.Add(oyuncu);
+            Label lbl = new Label();
+            lbl.Size = new Size(100, 30);
+            lbl.Text = oyuncu;
+            lbl.Tag = oyuncu.Id;
+            lbl.Location = new Point(20, oyuncular.Count * 30);
+            lbl.AllowDrop = true;
+            lbl.MouseDown += new MouseEventHandler(lbl_MouseDown);
+            lbl.MouseEnter += new EventHandler(lbl_MouseEnter);
+            lbl.MouseLeave += new EventHandler(lbl_MouseLeave);
+           // lbl.DoDragDrop+=  
+            lbl.DragDrop += new DragEventHandler(lbl_DragDrop);
+            this.Controls.Add(lbl);
+        }
+
+        void lbl_DragDrop(object sender, DragEventArgs e)
+        {
+        
+        }
+        void lbl_MouseLeave(object sender, EventArgs e)
+        {
+            label1.Text = "";
+            label2.Text = "";
+            label3.Text = "";
+            label4.Text = "";
+            label5.Text = "";
+            label7.Text = "";
+            label6.Text = "";
+        }
+
+        void lbl_MouseEnter(object sender, EventArgs e)
+        {
+            data.Oyuncu oyu = veri.okuma.Oyuncu_cek((sender as Label).Tag.ToString());
+            label1.Text = oyu;
+            label2.Text = "Yaş: " + (data.Zaman.Time.Year - oyu.dogum_gunu.Year).ToString();
+            label3.Text = "Forma no: " + oyu.Forma_numarasi.ToString();
+            label4.Text = "Huc: " + oyu.Hucum.ToString();
+            label5.Text = "Pas: " + oyu.Pas.ToString();
+            label7.Text = "Def: " + oyu.Defans.ToString();
+            label6.Text = "Kal: " + oyu.Kalecilik.ToString();
+          
+        }
+
+       
+
+        void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        void lbl_MouseDown(object sender, MouseEventArgs e)
+        {
+            Form1.durum = true;
+            Form1.id = (sender as Control).Tag.ToString();
+            this.DoDragDrop((sender as Control).Text+","+(sender as Control).Tag, DragDropEffects.Move);
+        }
+
+        private void cont_taktik_oyuncu_listesi_Load(object sender, EventArgs e)
+        {
+            Guncelle();
+        }
+        public void Guncelle()
+        {
+            oyuncular = new List<data.Oyuncu>();
+
+            Kul_data.My_team.takimim.Ligi.Lig_Fixtur_Cek();
+
+            foreach (data.Oyuncu oyuncu in Kul_data.My_team.takimim.Oyunculari)
+            {
+                Oyuncu_ekle(oyuncu);
+            }
+        }
+        private void cont_taktik_oyuncu_listesi_DragLeave(object sender, EventArgs e)
+        {
+            Form1.durum = false;
+        }
+
+        private void cont_taktik_oyuncu_listesi_DragOver(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void cont_taktik_oyuncu_listesi_DragEnter(object sender, DragEventArgs e)
+        {
+            Form1.durum = true;
+        }
+    }
+  
+}

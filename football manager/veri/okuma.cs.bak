@@ -1,0 +1,156 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+namespace football_manager.veri
+{
+    class okuma
+    {
+        
+        public okuma()
+        {
+            ligleri_oku();
+            takimlari_oku();
+            oyunculari_oku();
+        }
+       static List<data.Lig> ligler = new List<data.Lig>();
+       static  List<data.Takım> takimlar = new List<data.Takım>();
+       static List<data.Oyuncu> oyuncular = new List<data.Oyuncu>();
+
+        private void ligleri_oku()
+        {
+            StreamReader oku = new StreamReader(@"data\\lig.txt",Encoding.Default);
+            string veri;
+            while ((veri = oku.ReadLine()) != null)
+            {
+                string[] prc = veri.Split('<');
+                string lig_ismi = prc[0];
+                string id = prc[1];
+                data.Lig new_lig = new data.Lig(lig_ismi, id);
+                ligler.Add(new_lig);
+            }
+        }
+        private void takimlari_oku()
+        {
+            StreamReader oku = new StreamReader(@"data\\takım.txt",Encoding.Default);
+            string veri;
+            while ((veri = oku.ReadLine()) != null)
+            {
+                string[] prc = veri.Split('<');
+                string takim_ismi = prc[0];
+                string id = prc[1];
+                data.Takım new_takim = new data.Takım(takim_ismi, id);
+                takimlar.Add(new_takim);
+                liglere_doldur(new_takim);
+               
+            }
+         
+        }
+        private void oyunculari_oku()
+        {
+            StreamReader oku = new StreamReader(@"data\\oyuncu.txt",Encoding.Default);
+            string veri;
+            while ((veri = oku.ReadLine()) != null)
+            {
+                string[] prc = veri.Split('<');
+                string oyuncu_ismi = prc[0];
+                
+                string[] prc_degerler = prc[1].Split(',');
+                string id = prc_degerler[0];
+                data.Oyuncu new_oyuncu = new data.Oyuncu(oyuncu_ismi, id,İslem.ConverttoString(prc_degerler[2]));
+                
+                new_oyuncu.Forma_numarasi = Convert.ToInt32(prc_degerler[1]);
+                new_oyuncu.Hucum = Convert.ToInt32(prc_degerler[3]);
+                new_oyuncu.Pas = Convert.ToInt32(prc_degerler[4]);
+                new_oyuncu.Defans = Convert.ToInt32(prc_degerler[5]);
+                new_oyuncu.Kalecilik = Convert.ToInt32(prc_degerler[6]);
+                new_oyuncu.Mevkileri = İslem.mevkileri_doldur(prc_degerler[7]);
+                oyuncular.Add(new_oyuncu);
+                takimlara_doldur(new_oyuncu);
+            }
+            Kul_data.My_team.takimim = takimlar[1];
+           
+        }
+        private void takimlara_doldur(data.Oyuncu oyuncu)
+        {
+            string takim_id = oyuncu.Id.ToString().Substring(0, 5);
+            for (int i = 0; i < takimlar.Count; i++)
+            {
+                if (takimlar[i].Id == takim_id)
+                {
+                    takimlar[i].Oyuncu_ekle(oyuncu);
+                    break;
+                }
+            }
+           
+        }
+        private void liglere_doldur(data.Takım takim)
+        {
+            string lig_id = takim.Id.ToString().Substring(0, 3);
+            for (int i = 0; i < ligler.Count; i++)
+            {
+                if (ligler[i].Id == lig_id)
+                {
+                    ligler[i].Takim_ekle(takim);
+                    break;
+                }
+            }
+        }
+        public static data.Oyuncu Oyuncu_cek(string id)
+        {
+            foreach (data.Oyuncu y_oyuncu in oyuncular)
+            {
+                if (y_oyuncu.Id == id)
+                {
+                    return y_oyuncu;
+                }
+            }
+            return null;
+        }
+        public static string[] tatikleri_al(string yer)
+        {
+            try
+            {
+                string[] dosya = Directory.GetFiles(yer);
+                for (int k = 0; k < dosya.Length; k++)
+                {
+                    string[] yeni_deger_dizi = dosya[k].Split('\\');
+                    string yeni_Deger = yeni_deger_dizi[yeni_deger_dizi.Length - 1].Split('.')[0];
+                    dosya[k] = yeni_Deger;
+                }
+                return dosya;
+            }
+            catch
+            {
+                throw new Exception("dsa");
+              
+            }
+        }
+        public static string mesaj_oku(string name)
+        {
+            StreamReader ok = new StreamReader(@"data\\mes\\" + name + ".txt",Encoding.Default);
+            return ok.ReadToEnd();
+        }
+        public static data.Takım takim(string takim_ismi)
+        {
+            foreach (var item in takimlar)
+            {
+                if (item == takim_ismi)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public static List<data.Oyuncu> oyunculari
+        {
+            get 
+            {
+                return oyuncular;
+            }
+        }
+
+
+    }
+}
